@@ -1,6 +1,6 @@
 <template>
-<div class="container">
-    <form @submit.prevent>
+<div>
+    <form @submit.prevent class="grid">
         <h3 v-if="isOrgan">Название организации</h3>
         <h3 v-else>Имя Фамилия</h3>
         <reg-auth-input v-model="user.name" input-type="text"/>
@@ -17,10 +17,10 @@
 
         <reg-auth-input v-model="user.password" input-type="password"/>
 
-        <reg-auth-button type="submit" class="btn" @click="createuser">Зарегистрироваться</reg-auth-button>
-
+        <reg-auth-button type="submit" class="btn mt-5" @click="createuser">Зарегистрироваться</reg-auth-button>
+        <slot></slot>
     </form>
-
+    
 </div>
 </template>
 
@@ -56,24 +56,8 @@ export default {
 
 </script>
 
-<style>
-
-form {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
-h3 {
-    color: rgb(255, 255, 255);
-    text-shadow: 1px 1px 2px darkgreen;
-}
-
-.container {
-    margin: 20px auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
+<style scoped>
+    h3 {
+       @apply mb-1
+    }
 </style>
