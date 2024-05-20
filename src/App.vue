@@ -1,5 +1,8 @@
 <template>
     <div>
+     <h1 className="underline">
+      Hello world!
+    </h1>
         <div class="reg-auth">
             <reg-auth-button @click="showOrgRegAuth(true)" :active="userStatus == 'ORGANIZER'"
                 >Вы организация?</reg-auth-button
@@ -91,12 +94,7 @@ export default {
 };
 </script>
 
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+<!-- <style>
 
 .background {
     background: radial-gradient(black, rgb(2, 41, 2));
@@ -128,4 +126,4 @@ h1 {
     align-items: center;
     justify-content: space-evenly;
 }
-</style>
+</style> -->
