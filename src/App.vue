@@ -1,33 +1,56 @@
 <template>
-    <div>
-     <h1 className="underline">
-      Hello world!
-    </h1>
-        <div class="reg-auth">
-            <reg-auth-button @click="showOrgRegAuth(true)" :active="userStatus == 'ORGANIZER'"
-                >Вы организация?</reg-auth-button
-            >
-            <reg-auth-button @click="showOrgRegAuth(false)" :active="userStatus == 'CLIENT'">
-                Вы клиент?</reg-auth-button
-            >
-        </div>
-        <div class="reg-auth" v-if="userStatus != null">
-            <reg-auth-button class="" @click="showRegDialog"
-                >Регистрация</reg-auth-button
-            >
-            <reg-auth-modal v-model:show="dialogRegStatus">
-                <organ-register-form
-                    @register="createOrgan"
-                    :isOrgan="userStatus == 'ORGANIZER'"
-                />
-            </reg-auth-modal>
-
-            <reg-auth-button class="" @click="showAuthDialog"
-                >Авторизация</reg-auth-button
-            >
-            <reg-auth-modal v-model:show="dialogAuthStatus">
-                <organ-login-form @login="loginOrgan" />
-            </reg-auth-modal>
+    <div class="bg-gradient-to-b from-zinc-800 via-green-800 to-green-500 h-screen w-screen flex items-center">
+        <div class="h-max mx-auto flex flex-col items-center bg-green-500 rounded-2xl px-10">
+            <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+                <h2
+                    class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 select-none"
+                >
+                    {{isRegister ? "Регистрация" : "Вход в аккаунт" }}
+                </h2>
+            </div>
+            <div class="mt-10 w-full">
+                <div  v-if="isRegister" class="flex text-gray-700 w-full text-center text-xl select-none">
+                    <span
+                        class="w-1/2"
+                        @click="showOrgRegAuth(false)"
+                        :class="{
+                            'text-white': userStatus == 'CLIENT'
+                        }"
+                        :style="{cursor: userStatus == 'CLIENT' ? 'default' : 'pointer'}"
+                    >
+                        Клиента</span
+                    >
+                    <span class="text-black"> | </span>
+                    <span
+                        class="w-1/2 ml-2"
+                        @click="showOrgRegAuth(true)"
+                        :class="{
+                            'text-white': userStatus == 'ORGANIZER'
+                        }"
+                        :style="{cursor: userStatus == 'ORGANIZER' ? 'default' : 'pointer'}"
+                        >Организации </span
+                    >
+                   
+                </div>
+                <hr  v-if="isRegister" color="#ffffff" class="mb-5">
+                <div class="text-xl w-full">
+                    <div v-if="isRegister">
+                        <organ-register-form
+                            @register="createOrgan"
+                            :isOrgan="userStatus == 'ORGANIZER'"
+                        ><span class="txt" @click="changeStateRegister(false)">или войти</span></organ-register-form>
+                        
+                    </div>
+                    <div v-else>
+                        <organ-login-form @login="loginOrgan">
+                            <span class="txt" @click="changeStateRegister(true)">или зарегистрироваться</span>
+                        </organ-login-form>
+                        
+                    </div>
+                    
+                    
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -46,7 +69,8 @@ export default {
             organs: [],
             dialogRegStatus: false,
             dialogAuthStatus: false,
-            userStatus: null,
+            userStatus: "CLIENT",
+            isRegister: true
         };
     },
     methods: {
@@ -84,46 +108,17 @@ export default {
             this.userStatus = org ? "ORGANIZER" : "CLIENT";
         },
 
-        showRegDialog() {
-            this.dialogRegStatus = true;
-        },
-        showAuthDialog() {
-            this.dialogAuthStatus = true;
+        changeStateRegister(register) {
+            this.isRegister = register;
         },
     },
 };
 </script>
 
-<!-- <style>
+<style>
+    .txt {
+        @apply text-gray-900 select-none text-right w-full cursor-pointer;
+    }
 
-.background {
-    background: radial-gradient(black, rgb(2, 41, 2));
-    /* height: 100%; */
-}
-
-h1 {
-    color: rgb(255, 255, 255);
-    text-shadow: 1px 1px 2px darkgreen;
-
-    margin: 1% 0 1% 0;
-    text-align: center;
-}
-
-.btnReg {
-    margin-top: 3%;
-    padding: 20px;
-    text-align: center;
-    /* font-size: 70px; */
-    background-color: rgb(29, 70, 29);
-    color: rgb(255, 255, 255);
-    font-weight: bold;
-    border-radius: 60px;
-    border: 2px solid rgb(59, 153, 59);
-}
-
-.reg-auth {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-}
-</style> -->
+    
+</style>

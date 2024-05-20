@@ -1,6 +1,6 @@
 <template>
-<div class="container">
-    <form @submit.prevent>
+<div >
+    <form class="grid" @submit.prevent>
         
         <h3>Почтовый адрес</h3>
 
@@ -10,10 +10,9 @@
 
         <reg-auth-input v-model="organ.password" input-type="password"/>
 
-        <reg-auth-button type="submit" class="btn" @click="login">Войти</reg-auth-button>
-
+        <reg-auth-button type="submit" class="btn mt-5" @click="login">Войти</reg-auth-button>
+        <slot></slot>
     </form>
-
 </div>
 </template>
 
@@ -42,24 +41,8 @@ export default {
 
 </script>
 
-<style>
-
-form {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
+<style scoped>
 h3 {
-    color: rgb(255, 255, 255);
-    text-shadow: 1px 1px 2px darkgreen;
-}
-
-.container {
-    margin: 20px auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
+       @apply mb-1
+    }
 </style>
