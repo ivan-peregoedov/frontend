@@ -1,84 +1,94 @@
 <template>
+    <div>
+        <div class="reg-auth">
+            <reg-auth-button @click="showOrgRegAuth(true)" :active="userStatus == 'ORGANIZER'"
+                >Вы организация?</reg-auth-button
+            >
+            <reg-auth-button @click="showOrgRegAuth(false)" :active="userStatus == 'CLIENT'">
+                Вы клиент?</reg-auth-button
+            >
+        </div>
+        <div class="reg-auth" v-if="userStatus != null">
+            <reg-auth-button class="" @click="showRegDialog"
+                >Регистрация</reg-auth-button
+            >
+            <reg-auth-modal v-model:show="dialogRegStatus">
+                <organ-register-form
+                    @register="createOrgan"
+                    :isOrgan="userStatus == 'ORGANIZER'"
+                />
+            </reg-auth-modal>
 
-<reg-auth-button @click="showOrgRegAuth">Вы организация?</reg-auth-button>
-<div class="reg-auth" v-if="userStatus=='ORGANIZER'">
-
-    <reg-auth-button class="" @click="showRegDialog">Регистрация</reg-auth-button>
-    <reg-auth-modal v-model:show="dialogRegStatus">
-        <organ-register-form @register="createOrgan" />
-    </reg-auth-modal>
-
-    <reg-auth-button class="" @click="showAuthDialog">Авторизация</reg-auth-button>
-    <reg-auth-modal v-model:show="dialogAuthStatus">
-        <organ-login-form @login="loginOrgan" />
-    </reg-auth-modal>
-
-</div>
-<reg-auth-button>Вы клиент?</reg-auth-button>
+            <reg-auth-button class="" @click="showAuthDialog"
+                >Авторизация</reg-auth-button
+            >
+            <reg-auth-modal v-model:show="dialogAuthStatus">
+                <organ-login-form @login="loginOrgan" />
+            </reg-auth-modal>
+        </div>
+    </div>
 </template>
 
 <script>
-import OrganRegisterForm from '@/components/OrganizerRegisterForm.vue';
-import OrganLoginForm from '@/components/OrganizerLoginForm.vue';
-import axios from 'axios';
+import OrganRegisterForm from "@/components/OrganizerRegisterForm.vue";
+import OrganLoginForm from "@/components/OrganizerLoginForm.vue";
+import axios from "axios";
 export default {
     components: {
         OrganRegisterForm,
-        OrganLoginForm
+        OrganLoginForm,
     },
     data() {
         return {
             organs: [],
             dialogRegStatus: false,
             dialogAuthStatus: false,
-            userStatus: ""
-        }
+            userStatus: null,
+        };
     },
     methods: {
         createOrgan(organ) {
             this.organs.push(organ);
-            axios.post('http://localhost:9090/register', {
-                    'name': organ.name,
-                    'phone': organ.phone,
-                    'email': organ.email,
-                    'password': organ.password,
-                    'role': 'ORGANIZER'
+            axios
+                .post("http://localhost:9090/register", {
+                    name: organ.name,
+                    phone: organ.phone,
+                    email: organ.email,
+                    password: organ.password,
+                    role: "ORGANIZER",
                 })
-                .then(response => {
-                    console.log('Ответ сервера:', response.data);
+                .then((response) => {
+                    console.log("Ответ сервера:", response.data);
                 })
-                .catch(error => {
-                    console.error('Ошибка при выполнении POST-запроса:', error);
+                .catch((error) => {
+                    console.error("Ошибка при выполнении POST-запроса:", error);
                 });
-
         },
         loginOrgan(organ) {
-            axios.post('http://localhost:9090/login', {
-                    'email': organ.email,
-                    'password': organ.password
+            axios
+                .post("http://localhost:9090/login", {
+                    email: organ.email,
+                    password: organ.password,
                 })
-                .then(response => {
-                    console.log('Ответ сервера:', response.data);
+                .then((response) => {
+                    console.log("Ответ сервера:", response.data);
                 })
-                .catch(error => {
-                    console.error('Ошибка при выполнении POST-запроса:', error);
+                .catch((error) => {
+                    console.error("Ошибка при выполнении POST-запроса:", error);
                 });
         },
-        showOrgRegAuth() {
-            this.userStatus = 'ORGANIZER';
+        showOrgRegAuth(org) {
+            this.userStatus = org ? "ORGANIZER" : "CLIENT";
         },
-        showClientRegAuth() {
-            this.userStatus = 'CLIENT';
-        },
+
         showRegDialog() {
             this.dialogRegStatus = true;
         },
         showAuthDialog() {
             this.dialogAuthStatus = true;
         },
-
-    }
-}
+    },
+};
 </script>
 
 <style>
@@ -91,7 +101,6 @@ export default {
 .background {
     background: radial-gradient(black, rgb(2, 41, 2));
     /* height: 100%; */
-
 }
 
 h1 {
