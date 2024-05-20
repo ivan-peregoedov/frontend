@@ -1,23 +1,23 @@
 <template>
 <div class="container">
     <form @submit.prevent>
-        <h3>Название организации</h3>
-
-        <reg-auth-input v-model="organ.name" input-type="text"/>
+        <h3 v-if="isOrgan">Название организации</h3>
+        <h3 v-else>Имя Фамилия</h3>
+        <reg-auth-input v-model="user.name" input-type="text"/>
         
         <h3>Телефонный номер</h3>
 
-        <reg-auth-input v-model="organ.phone" maxLength="11" placeholder="+7 (___) ___ __ __" input-type="tel"/>
+        <reg-auth-input v-model="user.phone" maxLength="11" placeholder="+7 (___) ___ __ __" input-type="tel"/>
 
         <h3>Почтовый адрес</h3>
 
-        <reg-auth-input v-model="organ.email" input-type="email"/>
+        <reg-auth-input v-model="user.email" input-type="email"/>
 
         <h3>Пароль</h3>
 
-        <reg-auth-input v-model="organ.password" input-type="password"/>
+        <reg-auth-input v-model="user.password" input-type="password"/>
 
-        <reg-auth-button type="submit" class="btn" @click="createOrgan">Зарегистрироваться</reg-auth-button>
+        <reg-auth-button type="submit" class="btn" @click="createuser">Зарегистрироваться</reg-auth-button>
 
     </form>
 
@@ -26,11 +26,13 @@
 
 <script>
 export default {
-    
+    props: {
+        isOrgan: Boolean
+    },
     data() {
         return {
 
-            organ: {
+            user: {
                 name: '',
                 phone: '',
                 email: '',
@@ -39,10 +41,10 @@ export default {
         }
     },
     methods: {
-        createOrgan() {
-            this.organ.id = Date.now();
-            this.$emit('register', this.organ);
-            this.organ = {
+        createuser() {
+            this.user.id = Date.now();
+            this.$emit('register', this.user);
+            this.user = {
                 name: '',
                 phone: '',
                 email: '',

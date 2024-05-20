@@ -1,11 +1,14 @@
 <template>
-<button class="btn">
+<button :class="{'btn' : true, 'active': active}">
     <slot></slot>
 </button>
 </template>
 
 <script>
 export default {
+    props: {
+        active: Boolean
+    },
     name: 'reg-auth-button'
 }
 </script>
@@ -23,6 +26,9 @@ export default {
     border: 2px solid rgb(59, 153, 59);
 }
 
+.active {
+    background-color: rgb(58, 70, 29);
+}
 .btn:hover {
     background: radial-gradient(black, rgb(2, 41, 2));
     color: rgb(59, 153, 59);
