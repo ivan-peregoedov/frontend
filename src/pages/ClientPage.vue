@@ -1,8 +1,5 @@
 <template>
-    <div>
-
-        <router-view></router-view>
-    </div>
+  <h1>Client</h1>
 </template>
 
 <script>
