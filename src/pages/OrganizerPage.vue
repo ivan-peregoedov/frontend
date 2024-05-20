@@ -30,7 +30,6 @@ export default {
                     description: 'Концерт Мумий тролля в Владивостоке. ВЛАДИВОСТОК 2000',
                     date_time: '2024-06-21 21:00:00',
                     tickets: 10
-                    
                 },
                 {
                     id : 2,
@@ -51,7 +50,7 @@ export default {
                     location: 'НОВАТ',
                     description: 'Известный балетист в Новосибирске',
                     date_time: '2024-06-11 19:00:00'
-                },
+                }
 
             ],
         }
